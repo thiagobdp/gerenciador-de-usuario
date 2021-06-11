@@ -10,10 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>voting-sessions</artifactId>
+	<artifactId>polling-manager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>voting-sessions</name>
-	<description>User Accreditation API</description>
+	<name>polling-manager</name>
+	<description>Polling Session Manager</description>
+
 
 	<properties>
 		<java.version>1.8</java.version>
