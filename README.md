@@ -1,8 +1,29 @@
-# User Accreditation API
+# Polling Session Manager
 
 ## ⚙ Getting Started
 
-Clone this repository in your computer: https://github.com/thiagobdp/investor-accreditation
+Visual Studio 2015, 2017 e 2019
+https://support.microsoft.com/pt-br/topic/os-downloads-do-visual-c-mais-recentes-com-suporte-2647da03-1eea-4433-9aff-95f26a218cc0
+ou para sistemas x64: 
+https://aka.ms/vs/16/release/vc_redist.x64.exe
+
+
+MySQL Installer 8.0.25
+https://dev.mysql.com/downloads/windows/installer/8.0.html
+
+ou direto no link: 
+https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-8.0.25.0.msi
+
+mysql user: root
+mysql password: root
+
+Clone this repository in your computer: https://github.com/thiagobdp/voting-sessions
+
+
+
+
+
+
 
 ## 💻 Running the project
 

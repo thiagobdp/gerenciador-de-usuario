@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>user-accreditation</artifactId>
+	<artifactId>voting-sessions</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>user-accreditation</name>
+	<name>voting-sessions</name>
 	<description>User Accreditation API</description>
 
 	<properties>
