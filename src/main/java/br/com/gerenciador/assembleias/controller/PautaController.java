@@ -50,7 +50,8 @@ public class PautaController {
 	}
 
 	/**
-	 * Abre a sessão da Pauta.
+	 * Abre a sessão da Pauta. Caso já está aberta ou não encontra a Pauta, retorna
+	 * erro.
 	 * 
 	 * @param pautaForm
 	 * @return
@@ -61,28 +62,35 @@ public class PautaController {
 			@RequestBody(required = false) @Valid AbreSessaoForm pautaForm) {
 		Optional<Pauta> opt = pautaRepository.findById(id);
 
-		if (!opt.isEmpty()) {
-			Pauta pauta = opt.get();
-			pauta.setInicioSessao(LocalDateTime.now());
-			LocalDateTime fimSessao = pauta.getInicioSessao();
-			if (pautaForm != null) {
-
-				if (pautaForm.getDuracaoEmMinutos() != null) {
-					fimSessao = fimSessao.plusMinutes(pautaForm.getDuracaoEmMinutos());
-				}
-				if (pautaForm.getDuracaoEmHoras() != null) {
-					fimSessao = fimSessao.plusHours(pautaForm.getDuracaoEmHoras());
-				}
-				pauta.setFimSessao(fimSessao);
-
-			} else {
-				pauta.setFimSessao(fimSessao.plusMinutes(1));
-			}
-
-			return ResponseEntity.ok(SessaoAbertaDto.converter(pauta));
+		if (opt.isEmpty()) {
+			return ResponseEntity.notFound().build();
 
 		} else {
-			return ResponseEntity.notFound().build();
+			Pauta pauta = opt.get();
+
+			if (pauta.getInicioSessao() != null) {
+				throw new IllegalStateException("Sessão já está aberta.");
+			} else {
+				
+				pauta.setInicioSessao(LocalDateTime.now());
+				LocalDateTime fimSessao = pauta.getInicioSessao();
+				
+				if (pautaForm != null) {
+
+					if (pautaForm.getDuracaoEmMinutos() != null) {
+						fimSessao = fimSessao.plusMinutes(pautaForm.getDuracaoEmMinutos());
+					}
+					if (pautaForm.getDuracaoEmHoras() != null) {
+						fimSessao = fimSessao.plusHours(pautaForm.getDuracaoEmHoras());
+					}
+					pauta.setFimSessao(fimSessao);
+
+				} else {
+					pauta.setFimSessao(fimSessao.plusMinutes(1));
+				}
+
+				return ResponseEntity.ok(SessaoAbertaDto.converter(pauta));
+			}
 		}
 	}
 
