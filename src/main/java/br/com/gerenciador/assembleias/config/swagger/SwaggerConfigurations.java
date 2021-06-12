@@ -15,7 +15,7 @@ public class SwaggerConfigurations {
 	public Docket forumApi() {
 		return new Docket(DocumentationType.SWAGGER_2)//
 				.select()//
-				.apis(RequestHandlerSelectors.basePackage("br.com.useraccreditation"))//
+				.apis(RequestHandlerSelectors.basePackage("br.com.gerenciador.assembleias"))//
 				.paths(PathSelectors.ant("/**"))//
 				.build();
 	}
