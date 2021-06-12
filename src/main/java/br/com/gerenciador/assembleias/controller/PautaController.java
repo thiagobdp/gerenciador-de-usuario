@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gerenciador.assembleias.controller.dto.PautaDto;
 import br.com.gerenciador.assembleias.controller.dto.SessaoAbertaDto;
+import br.com.gerenciador.assembleias.controller.dto.VotoDto;
 import br.com.gerenciador.assembleias.controller.form.AbreSessaoForm;
 import br.com.gerenciador.assembleias.controller.form.PautaForm;
+import br.com.gerenciador.assembleias.controller.form.VotoForm;
 import br.com.gerenciador.assembleias.model.Pauta;
 import br.com.gerenciador.assembleias.repository.PautaRepository;
 
@@ -59,39 +61,55 @@ public class PautaController {
 	@Transactional
 	@PutMapping(consumes = { "application/json" }, value = "/{id}/abrirsessao")
 	public ResponseEntity<SessaoAbertaDto> abrirSessao(@PathVariable Long id,
-			@RequestBody(required = false) @Valid AbreSessaoForm pautaForm) {
-		Optional<Pauta> opt = pautaRepository.findById(id);
+			@RequestBody(required = false) @Valid AbreSessaoForm abreSessaoForm) {
 
+		Optional<Pauta> opt = pautaRepository.findById(id);
 		if (opt.isEmpty()) {
 			return ResponseEntity.notFound().build();
-
-		} else {
-			Pauta pauta = opt.get();
-
-			if (pauta.getInicioSessao() != null) {
-				throw new IllegalStateException("Sessão já está aberta.");
-			} else {
-				
-				pauta.setInicioSessao(LocalDateTime.now());
-				LocalDateTime fimSessao = pauta.getInicioSessao();
-				
-				if (pautaForm != null) {
-
-					if (pautaForm.getDuracaoEmMinutos() != null) {
-						fimSessao = fimSessao.plusMinutes(pautaForm.getDuracaoEmMinutos());
-					}
-					if (pautaForm.getDuracaoEmHoras() != null) {
-						fimSessao = fimSessao.plusHours(pautaForm.getDuracaoEmHoras());
-					}
-					pauta.setFimSessao(fimSessao);
-
-				} else {
-					pauta.setFimSessao(fimSessao.plusMinutes(1));
-				}
-
-				return ResponseEntity.ok(SessaoAbertaDto.converter(pauta));
-			}
 		}
+
+		Pauta pauta = opt.get();
+		if (pauta.getInicioSessao() != null) {
+			throw new IllegalStateException("Sessão já está aberta.");
+		}
+
+		pauta.abreSessao(abreSessaoForm);
+
+		return ResponseEntity.ok(SessaoAbertaDto.converter(pauta));
+
+	}
+
+	@Transactional
+	@PutMapping(consumes = { "application/json" }, value = "/{id}/votar")
+	public ResponseEntity<VotoDto> votar(@PathVariable Long id,
+			@RequestBody(required = false) @Valid VotoForm votoForm) {
+
+		Optional<Pauta> opt = pautaRepository.findById(id);
+		if (opt.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		Pauta pauta = opt.get();
+		if (pauta.getFimSessao() == null) {
+			throw new IllegalStateException("Não é possível votar pois a sessão não está aberta.");
+		}
+
+		if (this.isSessaoFechada(pauta)) {
+			throw new IllegalStateException("Não é possível votar pois a sessão já está fechada.");
+		}
+		//TODO:continuar
+		return null;
+	}
+
+	private Boolean isSessaoFechada(Pauta pauta) {
+
+		if (pauta.getSessaoFechada()) {
+			return true;
+		} else if (pauta.getFimSessao().isAfter(LocalDateTime.now())) {
+			pauta.contabilizaVotosEFechaSessao();
+			return true;
+		}
+		return false;
 	}
 
 }

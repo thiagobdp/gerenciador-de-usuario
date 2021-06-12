@@ -3,6 +3,7 @@ package br.com.gerenciador.assembleias.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +27,7 @@ public class Voto {
 
 	@NotNull
 	@NotBlank
+	@Enumerated
 	private VotoEnum voto;
 
 	@NotNull
@@ -36,5 +38,45 @@ public class Voto {
 	@NotBlank
 	@ManyToOne
 	private Pauta pauta;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
+	}
+
+	public VotoEnum getVoto() {
+		return voto;
+	}
+
+	public void setVoto(VotoEnum voto) {
+		this.voto = voto;
+	}
+
+	public LocalDateTime getDataHoraVoto() {
+		return dataHoraVoto;
+	}
+
+	public void setDataHoraVoto(LocalDateTime dataHoraVoto) {
+		this.dataHoraVoto = dataHoraVoto;
+	}
+
+	public Pauta getPauta() {
+		return pauta;
+	}
+
+	public void setPauta(Pauta pauta) {
+		this.pauta = pauta;
+	}
 
 }

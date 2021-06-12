@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.gerenciador.assembleias.controller.form.AbreSessaoForm;
 import br.com.gerenciador.assembleias.controller.form.PautaForm;
 
 @Entity
@@ -30,6 +31,9 @@ public class Pauta {
 
 	private LocalDateTime inicioSessao;
 	private LocalDateTime fimSessao;
+
+	private Long votosSim = 0L;
+	private Long votosNao = 0L;
 
 	// usar para verificar as sessoes que precisam ser analisadas
 	@NotNull
@@ -74,12 +78,43 @@ public class Pauta {
 		return votos;
 	}
 
-	public void setInicioSessao(LocalDateTime inicioSessao) {
-		this.inicioSessao = inicioSessao;
+	/**
+	 * Abre a sessão atribuindo a hora de início e fim
+	 * @param abreSessaoForm
+	 */
+	public void abreSessao(AbreSessaoForm abreSessaoForm) {
+		this.inicioSessao = LocalDateTime.now();
+		LocalDateTime fimSessao = this.inicioSessao;
+
+		if (abreSessaoForm != null) {
+
+			if (abreSessaoForm.getDuracaoEmMinutos() != null) {
+				fimSessao = fimSessao.plusMinutes(abreSessaoForm.getDuracaoEmMinutos());
+			}
+			if (abreSessaoForm.getDuracaoEmHoras() != null) {
+				fimSessao = fimSessao.plusHours(abreSessaoForm.getDuracaoEmHoras());
+			}
+			this.fimSessao = fimSessao;
+
+		} else {
+			this.fimSessao = fimSessao.plusMinutes(1);
+		}
 	}
 
-	public void setFimSessao(LocalDateTime fimSessao) {
-		this.fimSessao = fimSessao;
+	/**
+	 * Soma os votos e armazena o resultado final para realizar a soma somente uma
+	 * vez Fecha a sessão.
+	 */
+	public void contabilizaVotosEFechaSessao() {
+		this.sessaoFechada = true;
+		if (this.votosSim.compareTo(0L) == 0 && this.votosSim.compareTo(0L) == 0) {
+			this.votos.stream().forEach(v -> {
+				if (v.getVoto().compareTo(VotoEnum.SIM) == 0) {
+					++this.votosSim;
+				} else {
+					++this.votosNao;
+				}
+			});
+		}
 	}
-
 }
