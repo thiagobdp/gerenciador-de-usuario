@@ -1,5 +1,6 @@
 package br.com.gerenciador.assembleias.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.gerenciador.assembleias.controller.dto.PautaDto;
 import br.com.gerenciador.assembleias.controller.dto.SessaoAbertaDto;
@@ -24,7 +26,9 @@ import br.com.gerenciador.assembleias.controller.form.AbreSessaoForm;
 import br.com.gerenciador.assembleias.controller.form.PautaForm;
 import br.com.gerenciador.assembleias.controller.form.VotoForm;
 import br.com.gerenciador.assembleias.model.Pauta;
+import br.com.gerenciador.assembleias.model.Voto;
 import br.com.gerenciador.assembleias.repository.PautaRepository;
+import br.com.gerenciador.assembleias.repository.VotoRepository;
 
 @RestController
 @RequestMapping("/pauta")
@@ -32,6 +36,9 @@ public class PautaController {
 
 	@Autowired
 	PautaRepository pautaRepository;
+
+	@Autowired
+	VotoRepository votoRepository;
 
 	@GetMapping(consumes = { "application/json" })
 	public List<PautaDto> listar() {
@@ -80,8 +87,8 @@ public class PautaController {
 
 	@Transactional
 	@PutMapping(consumes = { "application/json" }, value = "/{id}/votar")
-	public ResponseEntity<VotoDto> votar(@PathVariable Long id,
-			@RequestBody(required = false) @Valid VotoForm votoForm) {
+	public ResponseEntity<VotoDto> votar(@PathVariable Long id, @RequestBody @Valid VotoForm votoForm,
+			UriComponentsBuilder uriBuilder) {
 
 		Optional<Pauta> opt = pautaRepository.findById(id);
 		if (opt.isEmpty()) {
@@ -96,8 +103,17 @@ public class PautaController {
 		if (pauta.getSessaoFechada()) {
 			throw new IllegalStateException("Não é possível votar pois a sessão já está fechada.");
 		}
-		// TODO:continuar
-		return null;
+
+		Voto voto = Voto.votar(votoForm, pauta);
+		if (voto == null) {
+			throw new IllegalStateException(
+					"Não é possível votar pois o CPF:" + votoForm.getCpf() + " já realizou o voto.");
+		}
+
+		Voto votoSalvo = this.votoRepository.save(voto);
+		URI uri = uriBuilder.path("/voto/{id}").buildAndExpand(votoSalvo.getId()).toUri();
+		return ResponseEntity.created(uri).body(new VotoDto(voto));
+
 	}
 
 }

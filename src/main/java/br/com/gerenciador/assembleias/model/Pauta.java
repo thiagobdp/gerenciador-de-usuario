@@ -123,7 +123,7 @@ public class Pauta {
 	 */
 	private void verificaSeFechaSessao() {
 		if (!this.sessaoFechada) {
-			if (this.fimSessao.isAfter(LocalDateTime.now())) {
+			if (LocalDateTime.now().isAfter(this.fimSessao)) {
 				this.sessaoFechada = true;
 				this.contabilizaVotos();
 			}

@@ -3,15 +3,16 @@ package br.com.gerenciador.assembleias.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.br.CPF;
+import br.com.gerenciador.assembleias.controller.form.VotoForm;
 
 @Entity
 public class Voto {
@@ -21,23 +22,30 @@ public class Voto {
 	private Long id;
 
 	@NotNull
-	@NotBlank
-	@CPF
 	private Long cpf;
 
 	@NotNull
-	@NotBlank
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private VotoEnum voto;
 
 	@NotNull
-	@NotBlank
 	private LocalDateTime dataHoraVoto;
 
 	@NotNull
-	@NotBlank
 	@ManyToOne
 	private Pauta pauta;
+
+	public Voto(VotoForm votoForm, Pauta pauta) {
+		super();
+		this.cpf = votoForm.getCpf();
+		this.voto = votoForm.getVoto();
+		this.dataHoraVoto = LocalDateTime.now();
+		this.pauta = pauta;
+	}
+
+	public Voto() {
+		super();
+	}
 
 	public Long getId() {
 		return id;
@@ -77,6 +85,15 @@ public class Voto {
 
 	public void setPauta(Pauta pauta) {
 		this.pauta = pauta;
+	}
+
+	public static Voto votar(@Valid VotoForm votoForm, Pauta pauta) {
+		if (pauta.getVotos().stream().filter(voto -> voto.getCpf().compareTo(votoForm.getCpf()) == 0).count() != 0) {
+			return null;
+		} else {
+			return new Voto(votoForm, pauta);
+		}
+
 	}
 
 }
