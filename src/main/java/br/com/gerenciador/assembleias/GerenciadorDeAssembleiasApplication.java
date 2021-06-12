@@ -9,9 +9,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class PollingSessionManagerApplication {
+public class GerenciadorDeAssembleiasApplication {
 	
 	public static void main(String[] args) throws IOException {
-		SpringApplication.run(PollingSessionManagerApplication.class, args);
+		SpringApplication.run(GerenciadorDeAssembleiasApplication.class, args);
 	}	
 }

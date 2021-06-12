@@ -17,18 +17,19 @@ public class Voto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-		
-	@NotBlank @CPF
+
+	@NotBlank
+	@CPF
 	private Long cpf;
-	
+
 	@NotBlank
 	private VotoEnum voto;
-	
+
 	@NotBlank
 	private LocalDateTime dataHoraVoto;
-	
+
 	@NotBlank
 	@ManyToOne
-	private Pauta pauta; 
+	private Pauta pauta;
 
 }
