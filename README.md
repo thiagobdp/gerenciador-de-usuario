@@ -1,34 +1,59 @@
-# UNDER CONSTRUCTION - Polling Session Manager
+# Em construção - Gerenciador de Assembleias para Votação
 
-## ⚙ Getting Started
+## ⚙ Iniciando
 
-Clone this repository in your computer: https://github.com/thiagobdp/voting-sessions
+Clone este repositório em seu computador: https://github.com/thiagobdp/voting-sessions
 
 
-## Configuring MySql
+## Configurando MySql
 
-### Install Visual Studio 2015, 2017 e 2019
+### Instalar Visual Studio 2015, 2017 e 2019
 
-The latest supported Visual C++ downloads:
+Versões mais recentes do Visual C++:
 - https://support.microsoft.com/pt-br/topic/os-downloads-do-visual-c-mais-recentes-com-suporte-2647da03-1eea-4433-9aff-95f26a218cc0
 
-The version used in this project is x64: 
+A versão utilizada neste projeto é o link abaixo: 
 
 - https://aka.ms/vs/16/release/vc_redist.x64.exe
 
-### Install MySQL 8.0.25
+### Instalar MySQL 8.0.25
 
 MySQL Installer 8.0.25:
 - https://dev.mysql.com/downloads/windows/installer/8.0.html
 
-or directly on the link:
+ou diretamente pelo link:
 - https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-8.0.25.0.msi
 
-Set user root:
+Sugestão de senha para root:
 - mysql password: root
 
-## Create a new Database and Application User
-Run the following commands at the mysql prompt (MySQL 8.0 Command Line Client):
-- `mysql> create database db_polling_manager; -- Creates the new database`
-- `mysql> create user 'pmanageruser'@'%' identified by 'pmanageruser'; -- Creates the user`
-- `mysql> grant all on db_polling_manager.* to 'pmanageruser'@'%'; -- Gives all privileges to the new user on the newly created database`
+## Criar um novo banco de dados e um usuário para a aplicação
+Abra o aplicativo MySQL 8.0 Command Line Client. Ao abrir será solicitada a senha de root fornecida no passo anterior.
+
+Execute os seguintes comando no mysql prompt ( mysql> ):
+
+1- Cria o novo banco 
+* `create database bd_gerenciador_assembleias;`
+
+2- Cria o novo usuário
+
+* `create user 'pmanageruser'@'%' identified by 'pmanageruser';`
+
+3- Fornece todos privilégios para o novo usuário no novo banco de dados
+* `grant all on bd_gerenciador_assembleias.* to 'pmanageruser'@'%';`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
