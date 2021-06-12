@@ -1,14 +1,13 @@
 package br.com.gerenciador.assembleias.controller.form;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class AbreSessaoForm {
 
-	@Min(1) @Max(23)
+	@NotNull
 	private Long duracaoEmHoras;
 	
-	@Min(1) @Max(59)
+	@NotNull
 	private Long duracaoEmMinutos;
 
 	public Long getDuracaoEmHoras() {

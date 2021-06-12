@@ -97,17 +97,22 @@ public class Pauta {
 	public void abreSessao(AbreSessaoForm abreSessaoForm) {
 		this.inicioSessao = LocalDateTime.now();
 		LocalDateTime fimSessao = this.inicioSessao;
+		Boolean usuarioInformouTempoSessao = false;
 
 		if (abreSessaoForm != null) {
-
-			if (abreSessaoForm.getDuracaoEmMinutos() != null) {
+			if (abreSessaoForm.getDuracaoEmMinutos() != null
+					&& abreSessaoForm.getDuracaoEmMinutos().compareTo(0L) > 0) {
 				fimSessao = fimSessao.plusMinutes(abreSessaoForm.getDuracaoEmMinutos());
+				usuarioInformouTempoSessao = true;
 			}
-			if (abreSessaoForm.getDuracaoEmHoras() != null) {
+			if (abreSessaoForm.getDuracaoEmHoras() != null && abreSessaoForm.getDuracaoEmHoras().compareTo(0L) > 0) {
 				fimSessao = fimSessao.plusHours(abreSessaoForm.getDuracaoEmHoras());
+				usuarioInformouTempoSessao = true;
 			}
-			this.fimSessao = fimSessao;
+		}
 
+		if (usuarioInformouTempoSessao) {
+			this.fimSessao = fimSessao;
 		} else {
 			this.fimSessao = fimSessao.plusMinutes(1);
 		}

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.gerenciador.assembleias.controller.dto.PautaDetalhesDto;
 import br.com.gerenciador.assembleias.controller.dto.PautaDto;
 import br.com.gerenciador.assembleias.controller.dto.SessaoAbertaDto;
 import br.com.gerenciador.assembleias.controller.form.AbreSessaoForm;
@@ -56,7 +57,9 @@ public class PautaController {
 	 * Abre a sessão da Pauta. Caso já está aberta ou não encontra a Pauta, retorna
 	 * erro.
 	 * 
-	 * @param pautaForm
+	 * @param id             da pauta
+	 * @param abreSessaoForm é opcinal, porém se informado, precisa informar todos os
+	 *                       campos, mesmo que informe zero
 	 * @return
 	 */
 	@Transactional
@@ -78,5 +81,15 @@ public class PautaController {
 
 		return ResponseEntity.ok(SessaoAbertaDto.converter(pauta));
 
+	}
+
+	@Transactional
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<PautaDetalhesDto> detalhes(@PathVariable Long id) {
+		Optional<Pauta> opt = pautaRepository.findById(id);
+		if (opt.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(PautaDetalhesDto.converter(opt.get()));
 	}
 }
