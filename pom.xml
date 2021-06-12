@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>polling-manager</artifactId>
+	<artifactId>gerenciador-de-assembleias</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>polling-manager</name>
-	<description>Polling Session Manager</description>
+	<name>gerenciador-de-assembleias</name>
+	<description>Gerenciador de Assembleias para Votação</description>
 
 
 	<properties>
