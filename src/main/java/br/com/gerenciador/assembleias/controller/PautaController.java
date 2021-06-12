@@ -1,6 +1,5 @@
 package br.com.gerenciador.assembleias.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,26 +89,15 @@ public class PautaController {
 		}
 
 		Pauta pauta = opt.get();
-		if (pauta.getFimSessao() == null) {
-			throw new IllegalStateException("Não é possível votar pois a sessão não está aberta.");
+		if (!pauta.isSessaoIniciada()) {
+			throw new IllegalStateException("Não é possível votar pois a sessão ainda não foi aberta.");
 		}
-
-		if (this.isSessaoFechada(pauta)) {
-			throw new IllegalStateException("Não é possível votar pois a sessão já está fechada.");
-		}
-		//TODO:continuar
-		return null;
-	}
-
-	private Boolean isSessaoFechada(Pauta pauta) {
 
 		if (pauta.getSessaoFechada()) {
-			return true;
-		} else if (pauta.getFimSessao().isAfter(LocalDateTime.now())) {
-			pauta.contabilizaVotosEFechaSessao();
-			return true;
+			throw new IllegalStateException("Não é possível votar pois a sessão já está fechada.");
 		}
-		return false;
+		// TODO:continuar
+		return null;
 	}
 
 }

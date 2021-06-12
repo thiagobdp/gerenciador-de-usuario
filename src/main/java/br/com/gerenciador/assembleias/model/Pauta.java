@@ -32,8 +32,8 @@ public class Pauta {
 	private LocalDateTime inicioSessao;
 	private LocalDateTime fimSessao;
 
-	private Long votosSim = 0L;
-	private Long votosNao = 0L;
+	private Long qtdVotosSim = 0L;
+	private Long qtdVotosNao = 0L;
 
 	// usar para verificar as sessoes que precisam ser analisadas
 	@NotNull
@@ -71,7 +71,18 @@ public class Pauta {
 	}
 
 	public Boolean getSessaoFechada() {
+		this.verificaSeFechaSessao();
 		return sessaoFechada;
+	}
+
+	public Long getQtdVotosSim() {
+		this.verificaSeFechaSessao();
+		return qtdVotosSim;
+	}
+
+	public Long getQtdVotosNao() {
+		this.verificaSeFechaSessao();
+		return qtdVotosNao;
 	}
 
 	public List<Voto> getVotos() {
@@ -80,6 +91,7 @@ public class Pauta {
 
 	/**
 	 * Abre a sessão atribuindo a hora de início e fim
+	 * 
 	 * @param abreSessaoForm
 	 */
 	public void abreSessao(AbreSessaoForm abreSessaoForm) {
@@ -101,18 +113,34 @@ public class Pauta {
 		}
 	}
 
+	public Boolean isSessaoIniciada() {
+		return this.inicioSessao == null ? false : true;
+	}
+
 	/**
-	 * Soma os votos e armazena o resultado final para realizar a soma somente uma
-	 * vez Fecha a sessão.
+	 * Verifica se deve fechar a sessão. Caso esteja aberta porém já tenha passado o
+	 * horário de fechamento, realiza o fechamento e calcula o resultado dos votos *
 	 */
-	public void contabilizaVotosEFechaSessao() {
-		this.sessaoFechada = true;
-		if (this.votosSim.compareTo(0L) == 0 && this.votosSim.compareTo(0L) == 0) {
+	private void verificaSeFechaSessao() {
+		if (!this.sessaoFechada) {
+			if (this.fimSessao.isAfter(LocalDateTime.now())) {
+				this.sessaoFechada = true;
+				this.contabilizaVotos();
+			}
+		}
+	}
+
+	/**
+	 * Soma os votos e armazena o resultado final. Assim realizar a soma somente uma
+	 * vez e armazena a contagem nas variáveis.
+	 */
+	private void contabilizaVotos() {
+		if (this.qtdVotosSim.compareTo(0L) == 0 && this.qtdVotosSim.compareTo(0L) == 0) {
 			this.votos.stream().forEach(v -> {
 				if (v.getVoto().compareTo(VotoEnum.SIM) == 0) {
-					++this.votosSim;
+					++this.qtdVotosSim;
 				} else {
-					++this.votosNao;
+					++this.qtdVotosNao;
 				}
 			});
 		}
