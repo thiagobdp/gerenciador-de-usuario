@@ -5,8 +5,9 @@ import javax.validation.constraints.NotNull;
 import br.com.gerenciador.assembleias.model.VotoEnum;
 
 public class VotoForm {
-	
+
 	private Long cpf;
+	private Long idPauta;
 
 	@NotNull
 	private VotoEnum voto;
@@ -25,6 +26,14 @@ public class VotoForm {
 
 	public void setVoto(VotoEnum voto) {
 		this.voto = voto;
+	}
+
+	public Long getIdPauta() {
+		return idPauta;
+	}
+
+	public void setIdPauta(Long idPauta) {
+		this.idPauta = idPauta;
 	}
 
 }
