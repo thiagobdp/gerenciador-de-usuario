@@ -15,7 +15,7 @@ public class SwaggerConfigurations {
 	public Docket forumApi() {
 		return new Docket(DocumentationType.SWAGGER_2)//
 				.select()//
-				.apis(RequestHandlerSelectors.basePackage("br.com.gerenciador.assembleias"))//
+				.apis(RequestHandlerSelectors.basePackage("br.com.gerenciador.usuario"))//
 				.paths(PathSelectors.ant("/**"))//
 				.build();
 	}
