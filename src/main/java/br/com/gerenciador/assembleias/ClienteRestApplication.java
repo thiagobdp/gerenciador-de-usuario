@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import br.com.gerenciador.assembleias.model.ResultadoValidaUsuarioEnum;
 
 public class ClienteRestApplication {
-	
+
 	private static final String USER_VALIDA_CPF = "http://localhost:8080/users/{cpf}";
 
 	static RestTemplate restTemplate = new RestTemplate();
@@ -32,19 +32,19 @@ public class ClienteRestApplication {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		Map<String, String> param = new HashMap<String, String>();
-		param.put("cpf", cpf);		
-		
-//		HttpEntity<ResultadoValidaUsuarioEnum> entity = new HttpEntity<ResultadoValidaUsuarioEnum>("parameters", headers);
+		param.put("cpf", cpf);
+
 		HttpEntity<ResultadoValidaUsuarioEnum> entity = new HttpEntity<ResultadoValidaUsuarioEnum>(headers);
-		
+
 		try {
-		ResponseEntity<ResultadoValidaUsuarioEnum> result = restTemplate.exchange(USER_VALIDA_CPF, HttpMethod.GET, entity, ResultadoValidaUsuarioEnum.class, param);
-		System.out.println(result.getBody());
-		} catch(RestClientException ex) {
+			ResponseEntity<ResultadoValidaUsuarioEnum> result = restTemplate.exchange(USER_VALIDA_CPF, HttpMethod.GET,
+					entity, ResultadoValidaUsuarioEnum.class, param);
+			System.out.println(result.getBody());
+		} catch (RestClientException ex) {
 			System.out.println(ex.getMessage());
 			System.out.println(ex);
 		}
-		
+
 	}
 
 }
