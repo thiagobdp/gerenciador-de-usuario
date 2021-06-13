@@ -1,10 +1,10 @@
-package br.com.gerenciador.assembleias.controller;
+package br.com.gerenciador.usuario.controller;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class PautaControllerTest {
+public class UserControllerTest {
 
 	@Test
 	public void testListar() {

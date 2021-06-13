@@ -1,4 +1,4 @@
-package br.com.gerenciador.assembleias.controller;
+package br.com.gerenciador.usuario.controller;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.caelum.stella.ValidationMessage;
 import br.com.caelum.stella.validation.CPFValidator;
-import br.com.gerenciador.assembleias.model.ResultadoValidaUsuarioEnum;
+import br.com.gerenciador.usuario.model.ResultadoValidaUsuarioEnum;
 
 @RestController
 @RequestMapping("/users")

@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>gerenciador-de-assembleias</artifactId>
+	<artifactId>gerenciador-de-usuario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gerenciador-de-assembleias</name>
-	<description>Gerenciador de Assembleias para Votação</description>
+	<name>gerenciador-de-usuario</name>
+	<description>Gerenciador de Usuarios</description>
 
 
 	<properties>

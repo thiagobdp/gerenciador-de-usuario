@@ -1,4 +1,4 @@
-package br.com.gerenciador.assembleias.config.swagger;
+package br.com.gerenciador.usuario.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
